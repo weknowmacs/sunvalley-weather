@@ -58,11 +58,8 @@ window.SVW_FALLBACK = {
     { name: 'Fri',            hi: 75, lo: 42, cond: 'Slight chance PM rain',         icon: 'cloud-sun',   day: true },
   ],
   webcams: [
-    { name: 'River Run',      img: 'https://b16.hdrelay.com/camera/4c82abd4-5ef5-4b16-870f-548c2885d3f0/snapshot', live: true,  badge: 'Live'  },
-    { name: 'Warm Springs',  img: 'https://b16.hdrelay.com/camera/5f27e4b8-7c51-4451-bcf5-3ab843f56bc6/snapshot', live: true,  badge: 'Live'  },
-    { name: 'The Bowls',     img: 'https://b16.hdrelay.com/camera/390488dd-a758-4dd3-ae95-91c408abbff0/snapshot', live: true,  badge: 'Live'  },
-    { name: 'Snow Stake',    img: 'https://b16.hdrelay.com/camera/9d9a56b7-bf9e-4162-be9c-06c42ca208ff/snapshot', live: true,  badge: 'Live'  },
     { name: 'Quarter Dollar', img: 'https://b16.hdrelay.com/camera/b4e43d2a-4ba6-4f25-8753-1055f95230cb/snapshot', live: true, badge: 'Live'  },
+    { name: 'Snow Stake',    img: 'https://b16.hdrelay.com/camera/9d9a56b7-bf9e-4162-be9c-06c42ca208ff/snapshot', live: true, badge: 'Live'  },
     { name: 'SV Club',        img: 'https://b16.hdrelay.com/camera/22429e23-e586-4934-b19b-beb1e20a54a7/snapshot', live: true, badge: 'Live'  },
   ],
 };
