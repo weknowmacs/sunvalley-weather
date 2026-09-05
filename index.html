@@ -64,6 +64,7 @@
       <a href="#current">Current</a>
       <a href="#hourly">Hourly</a>
       <a href="#forecast">7-Day</a>
+      <a href="#ski">Ski Report</a>
       <a href="#webcams">Webcams</a>
       <a href="#about">About</a>
     </nav>
@@ -85,6 +86,7 @@
     <a href="#current">Current</a>
     <a href="#hourly">Hourly Forecast</a>
     <a href="#forecast">7-Day Outlook</a>
+    <a href="#ski">Ski &amp; Snow Report</a>
     <a href="#webcams">Mountain Webcams</a>
     <a href="#about">Data Source</a>
   </nav>
@@ -93,7 +95,7 @@
 <!-- ============ HERO / CURRENT CONDITIONS ============ -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <img src="hero-cam.jpg" alt="Live view of Bald Mountain from the White Clouds webcam, Sun Valley Resort" />
+    <img src="https://b16.hdrelay.com/camera/390488dd-a758-4dd3-ae95-91c408abbff0/snapshot" alt="Live view of Bald Mountain, Sun Valley Resort" onerror="this.onerror=null; this.src='hero-cam.jpg'" />
     <div class="hero-scrim"></div>
   </div>
 
@@ -142,6 +144,17 @@
       <h2 class="sec-title">Extended forecast</h2>
     </header>
     <div class="daily-list" data-daily-list></div>
+  </div>
+</section>
+
+<!-- ============ SKI & SNOW REPORT ============ -->
+<section class="section ski" id="ski">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">Mountain Conditions</p>
+      <h2 class="sec-title">Ski &amp; snow report</h2>
+    </header>
+    <div data-ski-report></div>
   </div>
 </section>
 

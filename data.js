@@ -67,6 +67,21 @@ window.SVW_FALLBACK = {
   ],
 };
 
+/* ---------- Ski & snow report (snapshot) ----------
+   Factual resort data summarized from Sun Valley Resort's mountain report
+   (sunvalley.com/the-mountain/mountain-report) and ski-resort.info.
+   Numbers are a point-in-time snapshot — refresh during the season. */
+window.SVW_SKI = {
+  updated: 'September 5, 2026',
+  open: false,
+  status: 'Closed for the season',
+  reopens: 'November 26, 2026',
+  seasonEnd: 'April 11, 2027',
+  snow: { last24: '—', last48: '—', last7: '—', baseDepth: '—', seasonTotal: '—' },
+  terrain: { liftsOpen: 0, liftsTotal: 12, trailsOpen: 0, trailsTotal: 90, surface: '—' },
+  reportUrl: 'https://www.sunvalley.com/the-mountain/mountain-report/',
+};
+
 /* ---------- Live NWS refresh (best-effort) ---------- */
 window.SVW_fetchLive = async function () {
   const UA = { 'User-Agent': '(sunvalleyweather.com, timur@mac.com)', 'Accept': 'application/geo+json' };

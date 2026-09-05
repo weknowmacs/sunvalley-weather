@@ -128,8 +128,36 @@
     }
   }
 
+  // ---- Ski & snow report (point-in-time snapshot from data.js) ----
+  function renderSki() {
+    const s = window.SVW_SKI; if (!s) return;
+    const el = $('[data-ski-report]'); if (!el) return;
+    const dash = v => (v == null || v === '') ? '—' : v;
+    const snow = s.snow || {};
+    const t = s.terrain || {};
+    const cells = [['last24','Last 24h'],['last48','Past 48h'],['last7','7-Day'],['baseDepth','Base depth'],['seasonTotal','Season total']];
+    el.innerHTML = `
+      <div class="ski-banner">
+        <span class="ski-status ${s.open ? '' : 'closed'}">${s.status}</span>
+        <span class="ski-reopens">Season reopens <b>${s.reopens}</b> · closes ${s.seasonEnd}</span>
+      </div>
+      <div class="ski-grid">
+        ${cells.map(([k, lbl]) => `<div class="ski-cell"><div class="ski-val">${dash(snow[k])}</div><div class="ski-lbl">${lbl}</div></div>`).join('')}
+      </div>
+      <div class="ski-terrain">
+        <div class="ski-terr"><div class="ski-val">${t.liftsOpen}<span class="u">/${t.liftsTotal}</span></div><div class="ski-lbl">Lifts open</div></div>
+        <div class="ski-terr"><div class="ski-val">${t.trailsOpen}<span class="u">/${t.trailsTotal}km</span></div><div class="ski-lbl">Trails open</div></div>
+        <div class="ski-terr"><div class="ski-val" style="font-size:var(--text-base)">${dash(t.surface)}</div><div class="ski-lbl">Surface</div></div>
+      </div>
+      <div class="ski-cta">
+        <a class="btn btn-solid" href="${s.reportUrl}" target="_blank" rel="noopener">Official mountain report</a>
+        <span class="ski-attrib">Snow report data: Sun Valley Resort · snapshot ${s.updated} · <a href="${s.reportUrl}" target="_blank" rel="noopener">view live report</a></span>
+      </div>`;
+  }
+
   // ---- Initial render with fallback, then attempt live refresh ----
   render({});
+  renderSki();
   if (window.SVW_fetchLive) {
     window.SVW_fetchLive().then(live => { if (live && live.current) render(live); }).catch(() => {});
   }
