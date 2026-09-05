@@ -78,6 +78,17 @@ p, li { text-wrap: pretty; }
 .brand-mark { width: 30px; height: 30px; color: var(--cyan); flex-shrink: 0; }
 .brand-text { font-family: var(--font-display); font-weight: 600; color: #fff; letter-spacing: 0.14em; font-size: 1.05rem; }
 .brand-text em { font-style: italic; font-weight: 400; color: var(--cyan-soft); letter-spacing: 0.04em; }
+@media (max-width: 560px) {
+  .brand-text { font-size: 0.8rem; letter-spacing: 0.06em; white-space: nowrap; }
+  .brand-mark { width: 24px; height: 24px; }
+  .brand { gap: 0.35rem; }
+  .header-inner { gap: 0.45rem; padding-block: 0.55rem; }
+  .header-actions { gap: 0.35rem; }
+}
+@media (max-width: 376px) {
+  .brand-text { font-size: 0.72rem; letter-spacing: 0.03em; }
+  .brand-mark { width: 22px; height: 22px; }
+}
 
 .primary-nav { display: flex; gap: 1.8rem; margin-inline: auto; }
 .primary-nav a { color: rgba(255,255,255,0.9); font-size: var(--text-sm); letter-spacing: 0.02em; position: relative; }
