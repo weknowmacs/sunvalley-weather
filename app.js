@@ -158,7 +158,36 @@
   // ---- Initial render with fallback, then attempt live refresh ----
   render({});
   renderSki();
+  fetchAlerts();
   if (window.SVW_fetchLive) {
     window.SVW_fetchLive().then(live => { if (live && live.current) render(live); }).catch(() => {});
+  }
+
+  // ---- Weather alerts (NWS active alerts for Sun Valley point) ----
+  const alertClose = $('#alertClose');
+  if (alertClose) alertClose.addEventListener('click', () => { const b = $('#alertBar'); if (b) b.hidden = true; });
+  async function fetchAlerts() {
+    try {
+      const UA = { 'User-Agent': '(sunvalleyweather.com, timur@mac.com)', 'Accept': 'application/geo+json' };
+      const r = await fetch('https://api.weather.gov/alerts/active?point=43.6966,-114.3528', { headers: UA });
+      if (!r.ok) return;
+      const d = await r.json();
+      const feats = d.features || [];
+      if (!feats.length) return;
+      const order = { Extreme: 5, Severe: 4, Moderate: 3, Minor: 2, Unknown: 1 };
+      feats.sort((a, b) => (order[b.properties.severity] || 0) - (order[a.properties.severity] || 0));
+      const f = feats[0];
+      const p = f.properties;
+      const bar = $('#alertBar'); if (!bar) return;
+      bar.hidden = false;
+      bar.setAttribute('data-severity', (p.severity || 'unknown').toLowerCase());
+      const head = $('[data-alert-headline]');
+      if (head) head.textContent = p.headline || (p.event + (p.areaDesc ? ' \u2014 ' + p.areaDesc : ''));
+      const link = $('[data-alert-link]');
+      if (link) {
+        const urn = String(f.id).split('/alerts/').pop();
+        link.href = 'https://alerts.weather.gov/cap/wwacapget.php?x=' + urn;
+      }
+    } catch (e) {}
   }
 })();

@@ -19,6 +19,19 @@
 
 <div class="menu-backdrop" id="menuBackdrop"></div>
 
+<!-- ============ WEATHER ALERT BANNER ============ -->
+<div class="alert-bar" id="alertBar" role="alert" hidden data-severity="">
+  <div class="alert-inner">
+    <svg class="alert-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>
+    <div class="alert-body">
+      <span class="alert-label">Weather Alert</span>
+      <span class="alert-headline" data-alert-headline>—</span>
+    </div>
+    <a class="alert-link" data-alert-link href="#" target="_blank" rel="noopener">View details</a>
+    <button class="alert-close" id="alertClose" aria-label="Dismiss alert">&times;</button>
+  </div>
+</div>
+
 <!-- ============ TOP UTILITY BAR ============ -->
 <div class="util-bar">
   <div class="util-inner">
