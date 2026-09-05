@@ -49,6 +49,24 @@
 
   // ---- Helpers ----
   const $ = (sel) => document.querySelector(sel);
+  // ---- Count-up animation for temperature values ----
+  function animateTemp(el, target, suffix = '°') {
+    if (!el) return;
+    const goal = Math.round(parseFloat(target));
+    if (isNaN(goal)) { el.textContent = target + suffix; return; }
+    const prev = parseInt(el.dataset.tempVal, 10);
+    const from = isNaN(prev) ? 0 : prev;
+    if (el._anim) cancelAnimationFrame(el._anim);
+    const dur = 950, t0 = performance.now();
+    const step = (now) => {
+      const p = Math.min((now - t0) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);          // easeOutCubic
+      el.textContent = Math.round(from + (goal - from) * e) + suffix;
+      if (p < 1) el._anim = requestAnimationFrame(step);
+      else { el.textContent = goal + suffix; el.dataset.tempVal = goal; }
+    };
+    el._anim = requestAnimationFrame(step);
+  }
   const fmtObserved = (iso) => {
     if (!iso) return 'Updated recently';
     const d = new Date(iso);
@@ -74,12 +92,12 @@
 
     // Current
     const setText = (sel, val) => { const el = $(sel); if (el && val != null) el.textContent = val; };
-    setText('[data-current-temp]', current.tempF + '°');
-    setText('[data-current-temp-big]', current.tempF + '°');
-    setText('[data-current-temp-card]', current.tempF + '°');
     setText('[data-current-cond]', current.condition);
     setText('[data-current-cond-card]', current.condition);
-    setText('[data-feelslike]', current.feelsLikeF + '°');
+    animateTemp($('[data-current-temp]'), current.tempF);
+    animateTemp($('[data-current-temp-big]'), current.tempF);
+    animateTemp($('[data-current-temp-card]'), current.tempF);
+    animateTemp($('[data-feelslike]'), current.feelsLikeF);
     setText('[data-humidity]', current.humidity + '%');
     setText('[data-humidity-card]', current.humidity + '%');
     setText('[data-dewpoint]', current.dewpointF + '°');
