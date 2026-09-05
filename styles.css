@@ -128,6 +128,11 @@ p, li { text-wrap: pretty; }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
 .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,26,50,0.55) 0%, rgba(8,26,50,0.15) 35%, rgba(8,26,50,0.5) 75%, rgba(8,26,50,0.92) 100%), linear-gradient(90deg, rgba(8,26,50,0.45) 0%, transparent 45%); }
+.hero-icon-wrap { position: absolute; z-index: 3; top: 15%; right: 7%; width: 128px; height: 128px; color: rgba(255,255,255,0.97); filter: drop-shadow(0 6px 28px rgba(0,0,0,0.28)); pointer-events: none; }
+.hero-icon { width: 100%; height: 100%; display: block; opacity: 0; transform: scale(0.8); animation: heroIconIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
+@keyframes heroIconIn { to { opacity: 1; transform: scale(1); } }
+@media (max-width: 820px) { .hero-icon-wrap { width: 84px; height: 84px; top: 12%; right: 5%; } }
+@media (max-width: 480px) { .hero-icon-wrap { width: 56px; height: 56px; top: 10%; right: 4%; } }
 .hero-content { position: relative; z-index: 2; width: min(100% - 2.5rem, var(--content)); margin-inline: auto; padding-block: var(--space-24) var(--space-16); max-width: 680px; }
 .hero-eyebrow { color: rgba(255,255,255,0.92); font-size: var(--text-xs); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: var(--space-4); font-weight: 500; }
 .hero-eyebrow::before { content: '— '; color: var(--cyan); }
@@ -264,8 +269,28 @@ p, li { text-wrap: pretty; }
 .day-row:nth-child(6) { animation-delay: 0.35s; } .day-row:nth-child(6) .day-icon { animation-delay: 0.53s; }
 .day-row:nth-child(7) { animation-delay: 0.41s; } .day-row:nth-child(7) .day-icon { animation-delay: 0.59s; }
 @media (prefers-reduced-motion: reduce) {
-  .hero-title, .hour-card, .day-row, .h-icon, .day-icon { animation: none; }
+  .hero-title, .hour-card, .day-row, .h-icon, .day-icon, .hero-icon, .wx-icon * { animation: none; }
 }
+/* ---- Animated weather icons ---- */
+.wx-icon .wx-sun-rays { transform-box: fill-box; transform-origin: center; animation: wx-spin 24s linear infinite; }
+.wx-icon .wx-sun-body { transform-box: fill-box; transform-origin: center; animation: wx-pulse 4.5s ease-in-out infinite; }
+.wx-icon .wx-cloud { transform-box: fill-box; transform-origin: center; animation: wx-drift 6s ease-in-out infinite alternate; }
+.wx-icon .wx-rain .drop { transform-box: fill-box; transform-origin: center; animation: wx-drop 1.4s linear infinite; }
+.wx-icon .wx-rain .drop:nth-child(2) { animation-delay: 0.45s; }
+.wx-icon .wx-rain .drop:nth-child(3) { animation-delay: 0.9s; }
+.wx-icon .wx-snow .flake { transform-box: fill-box; transform-origin: center; animation: wx-flake 2.6s linear infinite; }
+.wx-icon .wx-snow .flake:nth-child(2) { animation-delay: 0.7s; }
+.wx-icon .wx-snow .flake:nth-child(3) { animation-delay: 1.4s; }
+.wx-icon .wx-star { animation: wx-twinkle 3s ease-in-out infinite; }
+.wx-icon .wx-star:nth-child(2) { animation-delay: 1.2s; }
+.wx-icon .wx-bolt { transform-box: fill-box; transform-origin: center; animation: wx-flash 3.2s infinite; }
+@keyframes wx-spin { to { transform: rotate(360deg); } }
+@keyframes wx-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+@keyframes wx-drift { 0% { transform: translateX(-2.5px); } 100% { transform: translateX(2.5px); } }
+@keyframes wx-drop { 0% { transform: translateY(-1px); opacity: 0; } 25% { opacity: 1; } 75% { opacity: 1; } 100% { transform: translateY(4px); opacity: 0; } }
+@keyframes wx-flake { 0% { transform: translate(0,-1px); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(1px,4px); opacity: 0; } }
+@keyframes wx-twinkle { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes wx-flash { 0%, 88%, 100% { opacity: 0.18; } 92%, 96% { opacity: 1; } }
 .ac-cond { color: var(--cyan-soft); font-size: var(--text-base); margin-bottom: var(--space-6); }
 .ac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); padding-top: var(--space-4); border-top: 1px solid rgba(255,255,255,0.12); }
 .ac-grid div { display: flex; flex-direction: column; gap: 2px; }

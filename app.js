@@ -36,16 +36,18 @@
 
   // ---- Weather icons (inline SVG, monochrome via currentColor) ----
   const ICONS = {
-    sun: '<circle cx="12" cy="12" r="4.5"/><g stroke-linecap="round"><path d="M12 1.5v2M12 20.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1.5 12h2M20.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></g>',
-    moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/>',
-    'cloud-sun': '<path d="M8 18a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H8z"/><g stroke-linecap="round"><path d="M7 4v2M3.5 7.5l1.4 1.4M1.5 11h2"/></g>',
-    'cloud-moon': '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" opacity=".5"/><path d="M9 20a4 4 0 1 1 .5-7.97A3.5 3.5 0 0 1 17 13a3 3 0 0 1 0 7H9z"/>',
-    cloud: '<path d="M8 18a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H8z"/>',
-    rain: '<path d="M8 15a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 8a3.5 3.5 0 0 1 0 7H8z"/><g stroke-linecap="round"><path d="M9 19l-1 3M13 19l-1 3M17 19l-1 3"/></g>',
-    thunder: '<path d="M8 14a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 7a3.5 3.5 0 0 1 0 7H8z"/><path d="M13 14l-3 5h2.5L11 23l4-6h-2.5L13 14z" fill="currentColor" stroke="none"/>',
+    sun: '<g class="wx-sun-rays"><path d="M12 1.5v2M12 20.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1.5 12h2M20.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke-linecap="round"/></g><circle class="wx-sun-body" cx="12" cy="12" r="4.5"/>',
+    moon: '<path class="wx-moon" d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/><circle class="wx-star" cx="5.5" cy="6.5" r="0.7"/><circle class="wx-star" cx="7.5" cy="11" r="0.5"/>',
+    'cloud-sun': '<g class="wx-sun-rays"><path d="M7 4v2M3.5 7.5l1.4 1.4M1.5 11h2" stroke-linecap="round"/></g><circle class="wx-sun-body" cx="6" cy="7.5" r="2.5"/><g class="wx-cloud"><path d="M8 18a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H8z"/></g>',
+    'cloud-moon': '<path class="wx-moon" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" opacity=".5"/><g class="wx-cloud"><path d="M9 20a4 4 0 1 1 .5-7.97A3.5 3.5 0 0 1 17 13a3 3 0 0 1 0 7H9z"/></g><circle class="wx-star" cx="5" cy="6.5" r="0.5"/>',
+    cloud: '<g class="wx-cloud"><path d="M8 18a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 11a3.5 3.5 0 0 1 0 7H8z"/></g>',
+    rain: '<g class="wx-cloud"><path d="M8 15a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 8a3.5 3.5 0 0 1 0 7H8z"/></g><g class="wx-rain" stroke-linecap="round"><path class="drop" d="M9 19l-1 3"/><path class="drop" d="M13 19l-1 3"/><path class="drop" d="M17 19l-1 3"/></g>',
+    snow: '<g class="wx-cloud"><path d="M8 15a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 8a3.5 3.5 0 0 1 0 7H8z"/></g><g class="wx-snow"><circle class="flake" cx="9" cy="18" r="0.8"/><circle class="flake" cx="12" cy="19" r="0.8"/><circle class="flake" cx="15" cy="18" r="0.8"/></g>',
+    thunder: '<g class="wx-cloud"><path d="M8 14a4 4 0 1 1 .5-7.97A5 5 0 0 1 18 7a3.5 3.5 0 0 1 0 7H8z"/></g><path class="wx-bolt" d="M13 14l-3 5h2.5L11 23l4-6h-2.5L13 14z" fill="currentColor" stroke="none"/><g class="wx-rain" stroke-linecap="round"><path class="drop" d="M9 19l-1 3"/><path class="drop" d="M17 19l-1 3"/></g>',
   };
-  const iconSVG = (key) => `<svg class="h-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
-  const dayIconSVG = (key) => `<svg class="day-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
+  const iconSVG = (key) => `<svg class="h-icon wx-icon" data-wx="${key}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
+  const dayIconSVG = (key) => `<svg class="day-icon wx-icon" data-wx="${key}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
+  const currentIconSVG = (key) => `<svg class="hero-icon wx-icon" data-wx="${key}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
 
   // ---- Helpers ----
   const $ = (sel) => document.querySelector(sel);
@@ -95,6 +97,8 @@
     const setText = (sel, val) => { const el = $(sel); if (el && val != null) el.textContent = val; };
     setText('[data-current-cond]', current.condition);
     setText('[data-current-cond-card]', current.condition);
+    const heroIcon = $('[data-current-icon]');
+    if (heroIcon) heroIcon.innerHTML = currentIconSVG(current.icon);
     animateTemp($('[data-current-temp]'), current.tempF);
     animateTemp($('[data-current-temp-big]'), current.tempF);
     animateTemp($('[data-current-temp-card]'), current.tempF);
