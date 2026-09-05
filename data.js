@@ -82,6 +82,30 @@ window.SVW_SKI = {
   reportUrl: 'https://www.sunvalley.com/the-mountain/mountain-report/',
 };
 
+/* ---------- Fishing report ----------
+   Live river flow from USGS Water Data (public domain, CORS-enabled).
+   Hatches/patterns are seasonal editorial notes — verify with local fly shops. */
+window.SVW_FISH = {
+  updated: 'September 5, 2026',
+  waters: [
+    { name: 'Big Wood River', site: '13139510', loc: 'at Hailey', flow: 134, unit: 'cfs' },
+    { name: 'Trail Creek',    site: '13137300', loc: 'nr Sun Valley', flow: 18.2, unit: 'cfs' },
+  ],
+  biting: 'Rainbow, brown & brook trout',
+  clarity: 'Clear',
+  bestTimes: 'Early AM & evening',
+  hatches: [
+    { name: 'Pale Morning Duns', size: '#16–18' },
+    { name: 'Caddis', size: '#14–16' },
+    { name: 'Hoppers', size: '#8–12' },
+    { name: 'Western Red Quill', size: '#12–14' },
+    { name: 'Baetis (BWO)', size: '#18–20' },
+  ],
+  season: 'General trout season open · rainbow trout catch-&-release in effect',
+  idfgUrl: 'https://idfg.idaho.gov/fish/seasons-rules',
+  shopUrl: 'https://silver-creek.com/big-wood-warm-springs-and-the-copper-basin/',
+};
+
 /* ---------- Live NWS refresh (best-effort) ---------- */
 window.SVW_fetchLive = async function () {
   const UA = { 'User-Agent': '(sunvalleyweather.com, timur@mac.com)', 'Accept': 'application/geo+json' };

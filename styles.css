@@ -265,6 +265,45 @@ p, li { text-wrap: pretty; }
 @media (max-width: 980px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-8); } }
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; text-align: center; } }
 
+/* ===== FISHING REPORT ===== */
+.fish { background: var(--cream); }
+[data-theme='dark'] .fish { background: var(--paper); }
+.fish-flow { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
+.flow-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-6); transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans); }
+[data-theme='dark'] .flow-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+.flow-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--cyan); }
+.flow-name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 500; color: var(--ink); margin-bottom: var(--space-1); }
+[data-theme='dark'] .flow-name { color: #fff; }
+.flow-val { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 400; color: var(--cyan); line-height: 1; }
+.flow-val .u { font-size: 0.4em; color: var(--slate-600); margin-left: 4px; font-weight: 400; }
+[data-theme='dark'] .flow-val .u { color: var(--slate); }
+.flow-loc { font-size: var(--text-xs); color: var(--slate-600); margin-top: var(--space-2); display: inline-flex; align-items: center; gap: 0.4rem; }
+[data-theme='dark'] .flow-loc { color: rgba(255,255,255,0.6); }
+.fish-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-8); }
+.fish-cell { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5) var(--space-4); text-align: center; }
+[data-theme='dark'] .fish-cell { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+.fish-val { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 500; color: var(--ink); line-height: 1.15; }
+[data-theme='dark'] .fish-val { color: #fff; }
+.fish-lbl { font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate-600); margin-top: var(--space-2); }
+[data-theme='dark'] .fish-lbl { color: rgba(255,255,255,0.55); }
+.fish-hatches { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-8); margin-bottom: var(--space-8); }
+[data-theme='dark'] .fish-hatches { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+.fish-h-title { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 500; color: var(--ink); margin-bottom: var(--space-4); }
+[data-theme='dark'] .fish-h-title { color: #fff; }
+.hatch-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2) var(--space-6); }
+.hatch-list li { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; border-bottom: 1px dashed var(--line); }
+.hatch-name { font-size: var(--text-sm); color: var(--ink-soft); font-weight: 500; }
+[data-theme='dark'] .hatch-name { color: rgba(255,255,255,0.8); }
+.hatch-size { font-family: var(--font-display); font-size: var(--text-sm); color: var(--cyan); font-weight: 500; }
+.fish-cta { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink-soft); }
+.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
+[data-theme='dark'] .btn-outline { color: #fff; border-color: rgba(255,255,255,0.5); }
+.fish-attrib { font-size: var(--text-xs); color: var(--slate-600); max-width: 60ch; }
+[data-theme='dark'] .fish-attrib { color: rgba(255,255,255,0.5); }
+.fish-attrib a { color: var(--cyan); text-decoration: underline; }
+@media (max-width: 720px) { .fish-grid { grid-template-columns: 1fr; } .hatch-list { grid-template-columns: 1fr; } .fish-hatches { padding: var(--space-5) var(--space-5); } }
+
 /* ===== WEATHER ALERT BANNER ===== */
 .alert-bar { display: block; background: #9b1c1c; color: #fff; border-bottom: 1px solid rgba(0,0,0,0.18); }
 .alert-bar[hidden] { display: none; }

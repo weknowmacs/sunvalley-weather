@@ -158,9 +158,52 @@
   // ---- Initial render with fallback, then attempt live refresh ----
   render({});
   renderSki();
+  renderFish();
   fetchAlerts();
+  fetchRiver();
   if (window.SVW_fetchLive) {
     window.SVW_fetchLive().then(live => { if (live && live.current) render(live); }).catch(() => {});
+  }
+
+  // ---- Fishing report (live USGS river flow + seasonal notes) ----
+  function renderFish() {
+    const f = window.SVW_FISH; if (!f) return;
+    const el = $('[data-fish-report]'); if (!el) return;
+    el.innerHTML = `
+      <div class="fish-flow">
+        ${f.waters.map(w => `<div class="flow-card"><div class="flow-name">${w.name}</div><div class="flow-val" data-flow-site="${w.site}">${w.flow}<span class="u">${w.unit}</span></div><div class="flow-loc">${w.loc} <span class="live-dot"></span> live</div></div>`).join('')}
+      </div>
+      <div class="fish-grid">
+        <div class="fish-cell"><div class="fish-val">${f.biting}</div><div class="fish-lbl">What's biting</div></div>
+        <div class="fish-cell"><div class="fish-val">${f.clarity}</div><div class="fish-lbl">Water clarity</div></div>
+        <div class="fish-cell"><div class="fish-val">${f.bestTimes}</div><div class="fish-lbl">Best times</div></div>
+      </div>
+      <div class="fish-hatches">
+        <p class="fish-h-title">September hatches &amp; patterns</p>
+        <ul class="hatch-list">${f.hatches.map(h => `<li><span class="hatch-name">${h.name}</span><span class="hatch-size">${h.size}</span></li>`).join('')}</ul>
+        <p class="fish-attrib" style="margin-top:1rem">${f.season}</p>
+      </div>
+      <div class="fish-cta">
+        <a class="btn btn-solid" href="${f.shopUrl}" target="_blank" rel="noopener">Local fly-shop report</a>
+        <a class="btn btn-outline" href="${f.idfgUrl}" target="_blank" rel="noopener">IDFG seasons &amp; rules</a>
+        <span class="fish-attrib">River flow: <a href="https://waterdata.usgs.gov/nwis" target="_blank" rel="noopener">USGS Water Data</a> · fishing notes: seasonal snapshot ${f.updated}</span>
+      </div>`;
+  }
+  async function fetchRiver() {
+    const f = window.SVW_FISH; if (!f) return;
+    const sites = f.waters.map(w => w.site).join(',');
+    try {
+      const r = await fetch(`https://waterservices.usgs.gov/nwis/iv/?sites=${sites}&parameterCd=00060&format=json`);
+      if (!r.ok) return;
+      const d = await r.json();
+      for (const ts of (d.value.timeSeries || [])) {
+        const site = ts.sourceInfo.siteCode[0].value;
+        const w = f.waters.find(x => x.site === site); if (!w) continue;
+        const v = ts.values[0].value[0]; if (!v || v.value === '-' || v.value == null) continue;
+        const node = document.querySelector(`[data-flow-site="${site}"]`);
+        if (node) node.innerHTML = `${(Math.round(parseFloat(v.value) * 10) / 10)}<span class="u">${w.unit}</span>`;
+      }
+    } catch (e) {}
   }
 
   // ---- Weather alerts (NWS active alerts for Sun Valley point) ----
