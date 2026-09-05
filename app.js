@@ -120,10 +120,10 @@
     if (camGrid && fb.webcams) {
       const grads = ['linear-gradient(135deg,#1f4e6b,#0b223f)', 'linear-gradient(135deg,#5c7f93,#0b223f)', 'linear-gradient(135deg,#3a6b54,#16271d)'];
       camGrid.innerHTML = fb.webcams.map((c, i) => `
-        <div class="cam ${c.img ? '' : 'grad'}" ${c.img ? '' : `style="background:${grads[i % grads.length]}"`}>
-          ${c.img ? `<img src="${c.img}" alt="${c.name} webcam" />` : ''}
+        <div class="cam" style="background:${grads[i % grads.length]}">
+          ${c.img ? `<img src="${c.img}" alt="${c.name} webcam" loading="lazy" onerror="this.style.display='none'" />` : ''}
           <span class="cam-label">${c.name}</span>
-          <span class="cam-live">Sample</span>
+          <span class="cam-live">${c.badge || 'Live'}</span>
         </div>`).join('');
     }
   }
