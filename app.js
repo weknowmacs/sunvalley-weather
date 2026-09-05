@@ -83,6 +83,7 @@
     return out;
   }
 
+  let firstRender = true;
   function render(data) {
     const fb = window.SVW_FALLBACK || {};
     const current = mergeCurrent(fb.current, data.current);
@@ -112,6 +113,7 @@
     // Hourly
     const track = $('[data-hourly-track]');
     if (track) {
+      if (!firstRender) track.classList.add('no-anim');
       track.innerHTML = hourly.slice(0, 24).map((h, i) => `
         <div class="hour-card${i === 0 ? ' now' : ''}">
           <span class="h-time">${i === 0 ? 'Now' : h.t}</span>
@@ -124,6 +126,7 @@
     // Daily
     const list = $('[data-daily-list]');
     if (list) {
+      if (!firstRender) list.classList.add('no-anim');
       list.innerHTML = daily.map(d => `
         <div class="day-row">
           <span class="day-name">${d.name}</span>
@@ -144,6 +147,7 @@
           <span class="cam-live">${c.badge || 'Live'}</span>
         </div>`).join('');
     }
+    firstRender = false;
   }
 
   // ---- Ski & snow report (point-in-time snapshot from data.js) ----
