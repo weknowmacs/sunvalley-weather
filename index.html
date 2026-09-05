@@ -274,9 +274,13 @@
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script>
+  // Remove any leftover service worker + caches so the site always loads fresh.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((r) => r.unregister());
+        if ('caches' in window) caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
+      }).catch(() => {});
     });
   }
 </script>
