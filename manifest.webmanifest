@@ -1,0 +1,14 @@
+{
+  "name": "Sun Valley Weather",
+  "short_name": "SV Weather",
+  "description": "Live weather for Sun Valley, Idaho — current conditions, hourly and 7-day forecasts, and mountain webcams. Powered by NOAA / NWS station KSUN.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b223f",
+  "theme_color": "#0b223f",
+  "categories": ["weather", "travel"],
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

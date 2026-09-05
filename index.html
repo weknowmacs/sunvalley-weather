@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sun Valley Weather — Live conditions, KSUN (NOAA/NWS)</title>
+<meta name="description" content="Live Sun Valley, Idaho weather — current conditions from NWS station KSUN, hourly and 7-day forecasts, and mountain webcams." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Inter:wght@300..700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.webmanifest" />
+<meta name="theme-color" content="#0b223f" />
+</head>
+<body>
+
+<div class="menu-backdrop" id="menuBackdrop"></div>
+
+<!-- ============ TOP UTILITY BAR ============ -->
+<div class="util-bar">
+  <div class="util-inner">
+    <p class="util-msg">Live conditions from NOAA / NWS station <b>KSUN</b></p>
+    <nav class="util-nav" aria-label="Secondary">
+      <a href="#hourly">Hourly</a>
+      <span class="dot">·</span>
+      <a href="#forecast">7-Day</a>
+      <span class="dot">·</span>
+      <a href="#webcams">Webcams</a>
+      <span class="dot">·</span>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ MAIN HEADER / NAV ============ -->
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <span>Menu</span>
+    </button>
+
+    <a class="brand" href="#top" aria-label="Sun Valley Weather home">
+      <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none">
+          <circle cx="32" cy="30" r="9"/>
+          <line x1="32" y1="6"  x2="32" y2="14"/>
+          <line x1="32" y1="46" x2="32" y2="54"/>
+          <line x1="8"  y1="30" x2="16" y2="30"/>
+          <line x1="48" y1="30" x2="56" y2="30"/>
+          <line x1="14" y1="12" x2="20" y2="18"/>
+          <line x1="44" y1="42" x2="50" y2="48"/>
+          <line x1="14" y1="48" x2="20" y2="42"/>
+          <line x1="44" y1="18" x2="50" y2="12"/>
+        </g>
+      </svg>
+      <span class="brand-text">SUN VALLEY <em>Weather</em></span>
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="#current">Current</a>
+      <a href="#hourly">Hourly</a>
+      <a href="#forecast">7-Day</a>
+      <a href="#webcams">Webcams</a>
+      <a href="#about">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="weather-chip" id="navTemp" aria-label="Current temperature">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.5"/><g stroke-linecap="round"><path d="M12 1.5v2M12 20.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1.5 12h2M20.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></g></svg>
+        <span class="temp" data-current-temp>—°</span>
+      </button>
+      <button class="icon-btn" data-theme-toggle aria-label="Switch to dark mode"></button>
+      <a class="book-btn" href="#about">Data Source</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU PANEL ============ -->
+<div class="mobile-menu" id="mobileMenu" hidden>
+  <nav aria-label="Mobile">
+    <a href="#current">Current</a>
+    <a href="#hourly">Hourly Forecast</a>
+    <a href="#forecast">7-Day Outlook</a>
+    <a href="#webcams">Mountain Webcams</a>
+    <a href="#about">Data Source</a>
+  </nav>
+</div>
+
+<!-- ============ HERO / CURRENT CONDITIONS ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="hero-valley.png" alt="Aerial view of Sun Valley resort under golden light" />
+    <div class="hero-scrim"></div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Live weather · Sun Valley, Idaho</p>
+    <h1 class="hero-title" data-current-temp-big>—°</h1>
+    <p class="hero-cond" data-current-cond>—</p>
+    <p class="hero-loc" data-location>Sun Valley, Idaho · Station KSUN</p>
+    <p class="hero-meta">Feels like <b data-feelslike>—°</b> · <span data-observed>Observing…</span></p>
+    <div class="hero-cta">
+      <a class="btn btn-solid" href="#hourly">Hourly Forecast</a>
+      <a class="btn btn-ghost" href="#forecast">7-Day Outlook</a>
+    </div>
+  </div>
+
+  <!-- current detail strip -->
+  <div class="current-strip" id="current">
+    <div class="current-inner">
+      <div class="cs-item"><span class="cs-label">Wind</span><span class="cs-val" data-wind>—</span></div>
+      <div class="cs-item"><span class="cs-label">Humidity</span><span class="cs-val" data-humidity>—%</span></div>
+      <div class="cs-item"><span class="cs-label">Dewpoint</span><span class="cs-val" data-dewpoint>—°</span></div>
+      <div class="cs-item"><span class="cs-label">Pressure</span><span class="cs-val" data-pressure>—"</span></div>
+      <div class="cs-item"><span class="cs-label">Elevation</span><span class="cs-val">5,315 ft</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOURLY FORECAST ============ -->
+<section class="section hourly" id="hourly">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">Next 24 Hours</p>
+      <h2 class="sec-title">Hourly forecast</h2>
+    </header>
+    <div class="hourly-scroll">
+      <div class="hourly-track" data-hourly-track></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7-DAY FORECAST ============ -->
+<section class="section forecast" id="forecast">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">7-Day Outlook</p>
+      <h2 class="sec-title">Extended forecast</h2>
+    </header>
+    <div class="daily-list" data-daily-list></div>
+  </div>
+</section>
+
+<!-- ============ WEBCAMS ============ -->
+<section class="section webcams" id="webcams">
+  <div class="container">
+    <header class="sec-head cam-head">
+      <div>
+        <p class="sec-eyebrow">Eyes on the Valley</p>
+        <h2 class="sec-title">Mountain webcams</h2>
+      </div>
+      <p class="cam-lede">Six views across Bald and Dollar Mountains. <span class="live-dot"></span> Representative imagery in this mockup.</p>
+    </header>
+    <div class="cam-grid" data-cam-grid></div>
+    <p class="cam-note">Webcam imagery shown is representative for this mockup. Live feed integration available on request.</p>
+  </div>
+</section>
+
+<!-- ============ ABOUT / DATA SOURCE ============ -->
+<section class="section about" id="about">
+  <div class="container about-inner">
+    <div class="about-text">
+      <p class="sec-eyebrow">About the data</p>
+      <h2 class="sec-title">Powered by NOAA &amp; the National Weather Service</h2>
+      <p class="sec-lede">Current conditions come from NWS observation station <b>KSUN</b> (Friedman Memorial Airport, Hailey). Hourly and 7-day forecasts are generated by the NWS forecast office in Pocatello (PIH) for the Sun Valley gridpoint. Data is refreshed automatically when you load the page.</p>
+      <ul class="check-list">
+        <li>Station: <b>KSUN</b> · 43.50°N, 114.30°W · 5,315 ft</li>
+        <li>Forecast office: <b>NWS Pocatello (PIH)</b>, grid 48,94</li>
+        <li>Source: <b>api.weather.gov</b> (NOAA / NWS), public domain</li>
+      </ul>
+      <a class="link-arrow dark" href="https://www.weather.gov/" target="_blank" rel="noopener">Visit weather.gov →</a>
+    </div>
+    <aside class="about-card">
+      <p class="ac-label">Current observation</p>
+      <p class="ac-station">KSUN · Friedman Memorial</p>
+      <p class="ac-temp" data-current-temp-card>—°</p>
+      <p class="ac-cond" data-current-cond-card>—</p>
+      <div class="ac-grid">
+        <div><span>Humidity</span><b data-humidity-card>—%</b></div>
+        <div><span>Wind</span><b data-wind-card>—</b></div>
+        <div><span>Dewpoint</span><b data-dewpoint-card>—°</b></div>
+        <div><span>Pressure</span><b data-pressure-card>—"</b></div>
+      </div>
+      <p class="ac-updated" data-observed-card>—</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none">
+          <circle cx="32" cy="30" r="9"/>
+          <line x1="32" y1="6"  x2="32" y2="14"/>
+          <line x1="32" y1="46" x2="32" y2="54"/>
+          <line x1="8"  y1="30" x2="16" y2="30"/>
+          <line x1="48" y1="30" x2="56" y2="30"/>
+          <line x1="14" y1="12" x2="20" y2="18"/>
+          <line x1="44" y1="42" x2="50" y2="48"/>
+          <line x1="14" y1="48" x2="20" y2="42"/>
+          <line x1="44" y1="18" x2="50" y2="12"/>
+        </g>
+      </svg>
+      <span class="brand-text">SUN VALLEY <em>Weather</em></span>
+      <p class="footer-tag">Live mountain weather for Sun Valley, Idaho.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Forecast</h4>
+      <a href="#current">Current</a>
+      <a href="#hourly">Hourly</a>
+      <a href="#forecast">7-Day</a>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#webcams">Webcams</a>
+      <a href="#about">Data source</a>
+      <a href="https://www.weather.gov/" target="_blank" rel="noopener">weather.gov</a>
+    </div>
+    <div class="footer-sub">
+      <h4>Forecast alerts</h4>
+      <form class="sub-form" onsubmit="return false">
+        <input type="email" placeholder="you@example.com" aria-label="Email address" />
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="fine">Storm and powder alerts — a few times a season.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Sun Valley Weather · sunvalleyweather.com · Data: NOAA / NWS (public domain). Not affiliated with Sun Valley Resort.</p>
+    <nav aria-label="Legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
