@@ -125,8 +125,13 @@ p, li { text-wrap: pretty; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; min-height: 92dvh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; margin-top: -76px; padding-top: 76px; }
-.hero-bg { position: absolute; inset: 0; z-index: 0; }
-.hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; animation: kenburns 30s ease-in-out infinite alternate; transform-origin: center; will-change: transform; }
+@keyframes kenburns {
+  0% { transform: scale(1.04) translate(0, 0); }
+  50% { transform: scale(1.1) translate(-1.2%, -0.8%); }
+  100% { transform: scale(1.04) translate(1.2%, 0.8%); }
+}
 .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,26,50,0.55) 0%, rgba(8,26,50,0.15) 35%, rgba(8,26,50,0.5) 75%, rgba(8,26,50,0.92) 100%), linear-gradient(90deg, rgba(8,26,50,0.45) 0%, transparent 45%); }
 .hero-icon-wrap { position: absolute; z-index: 3; top: 15%; right: 7%; width: 128px; height: 128px; color: rgba(255,255,255,0.97); filter: drop-shadow(0 6px 28px rgba(0,0,0,0.28)); pointer-events: none; }
 .hero-icon { width: 100%; height: 100%; display: block; opacity: 0; transform: scale(0.8); animation: heroIconIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.25s both; }
@@ -269,7 +274,7 @@ p, li { text-wrap: pretty; }
 .day-row:nth-child(6) { animation-delay: 0.35s; } .day-row:nth-child(6) .day-icon { animation-delay: 0.53s; }
 .day-row:nth-child(7) { animation-delay: 0.41s; } .day-row:nth-child(7) .day-icon { animation-delay: 0.59s; }
 @media (prefers-reduced-motion: reduce) {
-  .hero-title, .hour-card, .day-row, .h-icon, .day-icon, .hero-icon, .wx-icon * { animation: none; }
+  .hero-title, .hour-card, .day-row, .h-icon, .day-icon, .hero-icon, .hero-bg img, .wx-icon * { animation: none; }
 }
 /* ---- Animated weather icons ---- */
 .wx-icon .wx-sun-rays { transform-box: fill-box; transform-origin: center; animation: wx-spin 24s linear infinite; }
