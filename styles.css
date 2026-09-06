@@ -445,7 +445,8 @@ p, li { text-wrap: pretty; }
 .lt-map { display: block; width: 100%; height: clamp(320px, 52vh, 520px); border: 0; }
 .lt-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--white); border-top: 1px solid var(--line); font-size: var(--text-xs); color: var(--ink-soft); font-weight: 500; }
 [data-theme='dark'] .lt-legend { background: var(--paper); color: var(--ink-soft); }
-.lt-age { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 0.35rem; vertical-align: -2px; }
+.lt-item { display: inline-flex; align-items: center; white-space: nowrap; }
+.lt-age { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 0.35rem; flex: 0 0 14px; }
 .lt-now { background: #ffffff; box-shadow: 0 0 0 1px rgba(11,34,63,0.25); }
 .lt-2 { background: #f5d77a; }
 .lt-5 { background: #e8a33d; }
