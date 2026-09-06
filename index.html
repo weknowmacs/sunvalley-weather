@@ -39,6 +39,8 @@
     <nav class="util-nav" aria-label="Secondary">
       <a href="#hourly">Hourly</a>
       <span class="dot">·</span>
+      <a href="#timeline">48-Hour</a>
+      <span class="dot">·</span>
       <a href="#forecast">7-Day</a>
       <span class="dot">·</span>
       <a href="#webcams">Webcams</a>
@@ -67,6 +69,7 @@
     <nav class="primary-nav" aria-label="Primary">
       <a href="#current">Current</a>
       <a href="#hourly">Hourly</a>
+      <a href="#timeline">48-Hour</a>
       <a href="#forecast">7-Day</a>
       <a href="#ski">Ski Report</a>
       <a href="#fish">Fishing</a>
@@ -139,6 +142,28 @@
     </header>
     <div class="hourly-scroll">
       <div class="hourly-track" data-hourly-track></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 48-HOUR TIMELINE ============ -->
+<section class="section timeline" id="timeline">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">Next 48 Hours</p>
+      <h2 class="sec-title">Temperature &amp; precip timeline</h2>
+      <p class="sec-lede">Hour-by-hour temperature trend, precip chance, and conditions across the next two days. Hover or tap a point for details.</p>
+    </header>
+    <div class="tl-wrap">
+      <div class="tl-scroll" data-tl-scroll tabindex="0">
+        <svg class="tl-chart" data-tl-chart viewBox="0 0 1200 320" role="img" aria-label="48 hour temperature and precipitation timeline"></svg>
+      </div>
+      <div class="tl-legend">
+        <span class="lg-item"><span class="lg-swatch lg-day"></span>Day</span>
+        <span class="lg-item"><span class="lg-swatch lg-night"></span>Night</span>
+        <span class="lg-item"><span class="lg-swatch lg-temp"></span>Temperature</span>
+        <span class="lg-item"><span class="lg-swatch lg-pop"></span>Precip chance</span>
+      </div>
     </div>
   </div>
 </section>
@@ -236,6 +261,7 @@
       <h4>Forecast</h4>
       <a href="#current">Current</a>
       <a href="#hourly">Hourly</a>
+      <a href="#timeline">48-Hour</a>
       <a href="#forecast">7-Day</a>
     </div>
     <div class="footer-col">
