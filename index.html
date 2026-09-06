@@ -41,6 +41,8 @@
       <span class="dot">·</span>
       <a href="#timeline">48-Hour</a>
       <span class="dot">·</span>
+      <a href="#lightning">Lightning</a>
+      <span class="dot">·</span>
       <a href="#forecast">7-Day</a>
       <span class="dot">·</span>
       <a href="#webcams">Webcams</a>
@@ -70,6 +72,7 @@
       <a href="#current">Current</a>
       <a href="#hourly">Hourly</a>
       <a href="#timeline">48-Hour</a>
+      <a href="#lightning">Lightning</a>
       <a href="#forecast">7-Day</a>
       <a href="#ski">Ski Report</a>
       <a href="#fish">Fishing</a>
@@ -93,6 +96,7 @@
   <nav aria-label="Mobile">
     <a href="#current">Current</a>
     <a href="#hourly">Hourly Forecast</a>
+    <a href="#lightning">Lightning Strikes</a>
     <a href="#forecast">7-Day Outlook</a>
     <a href="#ski">Ski &amp; Snow Report</a>
     <a href="#fish">Fishing Report</a>
@@ -155,6 +159,27 @@
       <p class="sec-lede">Conditions broken into 6-hour windows across the next two days — a quick at-a-glance read of what's coming.</p>
     </header>
     <div class="sum-grid" data-sum-grid></div>
+  </div>
+</section>
+
+<!-- ============ LIGHTNING STRIKES ============ -->
+<section class="section lightning" id="lightning">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-eyebrow">Severe Weather</p>
+      <h2 class="sec-title">Lightning strikes</h2>
+      <p class="sec-lede">Live cloud-to-ground lightning from the Blitzortung community detection network, centered on the Wood River Valley. Strikes are color-coded by age — white is newest, fading to dark red over ~20 minutes.</p>
+    </header>
+    <div class="lt-wrap">
+      <iframe class="lt-map" src="https://map.blitzortung.org/index.php?interactive=1&NavigationControl=1&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=0&ScaleControl=1&LinksCheckboxChecked=1&LinksRangeValue=8&MapStyle=2&MapStyleRangeValue=8&Advertisment=0#7/43.6966/-114.3528" title="Live lightning strikes near Sun Valley, Idaho" loading="lazy" referrerpolicy="no-referrer" allow="geolocation"></iframe>
+      <div class="lt-legend">
+        <span class="lt-age lt-now"></span>0–2 min
+        <span class="lt-age lt-2"></span>2–5 min
+        <span class="lt-age lt-5"></span>5–10 min
+        <span class="lt-age lt-10"></span>10–20 min
+      </div>
+    </div>
+    <p class="lt-attrib">Live strike data from <a href="https://www.blitzortung.org/" target="_blank" rel="noopener">Blitzortung.org</a>, a community-run, low-cost lightning detection network. Pan or zoom the map for regional detail. This is informational — always seek shelter indoors during a thunderstorm.</p>
   </div>
 </section>
 
@@ -252,6 +277,7 @@
       <a href="#current">Current</a>
       <a href="#hourly">Hourly</a>
       <a href="#timeline">48-Hour</a>
+      <a href="#lightning">Lightning</a>
       <a href="#forecast">7-Day</a>
     </div>
     <div class="footer-col">
