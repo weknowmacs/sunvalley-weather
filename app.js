@@ -159,6 +159,15 @@
 
   // ---- 48-hour summary (8 six-hour windows, 2 rows of 4) ----
   const sumGrid = $('[data-sum-grid]');
+  const condShort = (s) => (s || '')
+    .replace(/Slight Chance Showers And Thunderstorms/gi, 'Slight T-Storms')
+    .replace(/Chance Showers And Thunderstorms/gi, 'Chance T-Storms')
+    .replace(/Showers And Thunderstorms/gi, 'T-Storms')
+    .replace(/Thunderstorms/gi, 'T-Storms')
+    .replace(/Showers And Snow/gi, 'Rain/Snow')
+    .replace(/Rain And Snow/gi, 'Rain/Snow')
+    .replace(/Slight Chance/gi, 'Slight')
+    .replace(/Chance of/gi, 'Chance');
   function renderSummary(hours) {
     if (!sumGrid || !hours || !hours.length) return;
     const h = hours.slice(0, 48);
@@ -185,7 +194,7 @@
         <span class="sum-range">${b.range}</span>
         <div class="sum-icon">${iconSVG(b.icon)}</div>
         <span class="sum-temp">${b.maxTemp}°</span>
-        <span class="sum-cond">${b.cond}</span>
+        <span class="sum-cond">${condShort(b.cond)}</span>
         ${b.maxPop > 0 ? `<span class="sum-pop">${b.maxPop}% precip</span>` : ''}
       </div>`;
     });
