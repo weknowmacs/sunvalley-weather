@@ -140,8 +140,8 @@
         </div>`).join('');
     }
 
-    // 48-hour timeline
-    renderTimeline(hourly);
+    // 48-hour summary
+    renderSummary(hourly);
 
     // Webcams
     const camGrid = $('[data-cam-grid]');
@@ -157,121 +157,39 @@
     firstRender = false;
   }
 
-  // ---- 48-hour timeline (temperature curve + precip + day/night + icons) ----
-  const tlSvg = $('[data-tl-chart]');
-  const tlScroll = $('[data-tl-scroll]');
-  let tlTooltip = null;
-  if (tlSvg && !tlTooltip && tlSvg.parentElement) {
-    tlTooltip = document.createElement('div');
-    tlTooltip.className = 'tl-tooltip';
-    tlTooltip.hidden = true;
-    tlSvg.parentElement.appendChild(tlTooltip);
-  }
-  function tlIconMarkup(key, x, y) {
-    return `<svg class="tl-ico ${key}" x="${x}" y="${y}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">${ICONS[key] || ICONS.cloud}</svg>`;
-  }
-  function renderTimeline(hours) {
-    if (!tlSvg || !hours || !hours.length) return;
+  // ---- 48-hour summary (8 six-hour windows, 2 rows of 4) ----
+  const sumGrid = $('[data-sum-grid]');
+  function renderSummary(hours) {
+    if (!sumGrid || !hours || !hours.length) return;
     const h = hours.slice(0, 48);
-    const n = h.length;
-    const W = 1200, H = 320;
-    const padL = 24, padR = 24, plotW = W - padL - padR;
-    const colW = plotW / n;
-    const cx = i => padL + colW * (i + 0.5);
-    // temp scale
-    const temps = h.map(p => p.temp);
-    let tMin = Math.min(...temps), tMax = Math.max(...temps);
-    if (tMax - tMin < 6) { tMax += 3; tMin -= 3; }
-    const tPad = Math.max(2, Math.round((tMax - tMin) * 0.12));
-    tMin -= tPad; tMax += tPad;
-    const tempTop = 64, tempBot = 196;
-    const yTemp = t => tempBot - ((t - tMin) / (tMax - tMin)) * (tempBot - tempTop);
-    // precip
-    const popTop = 236, popBot = 292, popH = popBot - popTop;
-    // day/night bands
-    let bands = '';
-    for (let i = 0; i < n; i++) {
-      const x = padL + colW * i;
-      bands += `<rect class="tl-band ${h[i].day ? 'day' : 'night'}" x="${x}" y="8" width="${colW + 0.5}" height="${H - 16}"/>`;
+    const blocks = [];
+    for (let b = 0; b < 8; b++) {
+      const start = b * 6;
+      if (start >= h.length) break;
+      const end = Math.min(start + 5, h.length - 1);
+      const slice = h.slice(start, end + 1);
+      const maxTemp = Math.max(...slice.map(p => p.temp));
+      const maxPop = Math.max(...slice.map(p => p.pop || 0));
+      const mid = slice[Math.floor(slice.length / 2)];
+      const wet = slice.find(p => ['rain', 'thunder', 'snow'].includes(p.icon));
+      const icon = wet ? wet.icon : mid.icon;
+      const cond = wet ? wet.cond : mid.cond;
+      const range = h[start].t + ' \u2013 ' + h[end].t;
+      blocks.push({ range, maxTemp, maxPop, icon, cond });
     }
-    // temp area + line
-    const pts = h.map((p, i) => [cx(i), yTemp(p.temp)]);
-    const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
-    const area = line + ` L${pts[n - 1][0].toFixed(1)} ${tempBot + 8} L${pts[0][0].toFixed(1)} ${tempBot + 8} Z`;
-    // precip bars + baseline track
-    let bars = `<rect class="tl-pop-track" x="${padL}" y="${popBot}" width="${plotW}" height="2"/>`;
-    for (let i = 0; i < n; i++) {
-      const pop = Math.max(0, h[i].pop || 0);
-      const bh = (pop / 100) * popH;
-      const x = cx(i) - 6;
-      const y = popBot - bh;
-      bars += `<rect class="tl-bar" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="12" height="${bh.toFixed(1)}" rx="2.5"/>`;
-      if (pop >= 30) bars += `<text class="tl-pop-lbl" x="${cx(i).toFixed(1)}" y="${(y - 4).toFixed(1)}" text-anchor="middle">${pop}%</text>`;
-    }
-    // icons every 4h (offset to avoid the NOW column)
-    let icons = '';
-    for (let i = 2; i < n; i += 4) {
-      icons += tlIconMarkup(h[i].icon, cx(i) - 10, 32);
-    }
-    // temp labels at local extrema (dedup near-equal neighbors)
-    let tlabels = '';
-    let lastLblI = -10, lastLblVal = null;
-    for (let i = 0; i < n; i++) {
-      const prev = i ? h[i - 1].temp : null, next = i < n - 1 ? h[i + 1].temp : null;
-      const isPeak = (prev == null || h[i].temp > prev) && (next == null || h[i].temp >= next);
-      const isTrough = (prev == null || h[i].temp < prev) && (next == null || h[i].temp <= next);
-      if (!isPeak && !isTrough) continue;
-      if (i % 4 === 2 || i === 0) continue;
-      if (i - lastLblI < 4 && (lastLblVal === null || Math.abs(h[i].temp - lastLblVal) < 4)) continue;
-      tlabels += `<text class="tl-tlbl" x="${cx(i).toFixed(1)}" y="${(yTemp(h[i].temp) - 8).toFixed(1)}" text-anchor="middle">${h[i].temp}°</text>`;
-      lastLblI = i; lastLblVal = h[i].temp;
-    }
-    // x-axis labels every 6h
-    let axis = '';
-    for (let i = 0; i < n; i += 6) {
-      axis += `<text class="tl-axis" x="${cx(i).toFixed(1)}" y="316" text-anchor="middle">${h[i].t}</text>`;
-      axis += `<line class="tl-grid" x1="${cx(i).toFixed(1)}" y1="8" x2="${cx(i).toFixed(1)}" y2="308"/>`;
-    }
-    // now marker
-    const nowX = cx(0);
-    const now = `<line class="tl-now" x1="${nowX.toFixed(1)}" y1="10" x2="${nowX.toFixed(1)}" y2="306"/><text class="tl-now-lbl" x="${nowX.toFixed(1)}" y="12" text-anchor="middle">NOW</text>`;
-    // hover hit areas
-    let hits = '';
-    for (let i = 0; i < n; i++) {
-      hits += `<rect class="tl-hit" data-tl-i="${i}" x="${(padL + colW * i).toFixed(1)}" y="8" width="${(colW + 0.5).toFixed(1)}" height="${H - 16}"><title>${h[i].t} · ${h[i].temp}° · ${h[i].cond} · ${h[i].wind} mph · ${h[i].pop || 0}% precip</title></rect>`;
-    }
-    tlSvg.innerHTML =
-      `<rect class="tl-bg" x="0" y="0" width="${W}" height="${H}" rx="14"/>` +
-      bands + axis +
-      `<path class="tl-area" d="${area}"/>` +
-      `<path class="tl-line" d="${line}" fill="none"/>` +
-      tlabels + bars + icons + now + hits;
-    tlSvg._hours = h;
-    tlSvg._geom = { padL, colW, n };
-  }
-  if (tlSvg) {
-    const move = (e) => {
-      if (!tlSvg._hours) return;
-      const rect = tlSvg.getBoundingClientRect();
-      if (!rect.width) return;
-      const ratio = 1200 / rect.width;
-      const svgX = (e.clientX - rect.left) * ratio;
-      const g = tlSvg._geom;
-      let i = Math.floor((svgX - g.padL) / g.colW);
-      i = Math.max(0, Math.min(g.n - 1, i));
-      const hh = tlSvg._hours[i];
-      if (!hh || !tlTooltip) return;
-      tlTooltip.hidden = false;
-      tlTooltip.innerHTML = `<span class="tt-time">${hh.t}</span><span class="tt-temp">${hh.temp}°</span><span class="tt-cond">${hh.cond}</span><span class="tt-meta">${hh.wind} mph wind · ${hh.pop || 0}% precip</span>`;
-      const wr = tlSvg.parentElement.getBoundingClientRect();
-      const x = Math.min(wr.width - 150, Math.max(8, e.clientX - wr.left + 14));
-      tlTooltip.style.left = x + 'px';
-      tlTooltip.style.top = (e.clientY - wr.top - 8) + 'px';
-    };
-    const hide = () => { if (tlTooltip) tlTooltip.hidden = true; };
-    tlSvg.addEventListener('mousemove', move);
-    tlSvg.addEventListener('mouseleave', hide);
-    tlSvg.addEventListener('touchstart', move, { passive: true });
+    const rowLabel = i => i === 0 ? 'First 24 hours' : 'Following 24 hours';
+    let html = '';
+    blocks.forEach((b, i) => {
+      if (i % 4 === 0) html += `<div class="sum-row-label">${rowLabel(i / 4)}</div>`;
+      html += `<div class="sum-cell">
+        <span class="sum-range">${b.range}</span>
+        <div class="sum-icon">${iconSVG(b.icon)}</div>
+        <span class="sum-temp">${b.maxTemp}°</span>
+        <span class="sum-cond">${b.cond}</span>
+        ${b.maxPop > 0 ? `<span class="sum-pop">${b.maxPop}% precip</span>` : ''}
+      </div>`;
+    });
+    sumGrid.innerHTML = html;
   }
 
   // ---- Ski & snow report (point-in-time snapshot from data.js) ----
