@@ -177,10 +177,10 @@
       const range = h[start].t + ' \u2013 ' + h[end].t;
       blocks.push({ range, maxTemp, maxPop, icon, cond });
     }
-    const rowLabel = i => i === 0 ? 'First 24 hours' : 'Following 24 hours';
     let html = '';
     blocks.forEach((b, i) => {
-      if (i % 4 === 0) html += `<div class="sum-row-label">${rowLabel(i / 4)}</div>`;
+      if (i === 0) html += `<div class="sum-day-tag">Day 1</div>`;
+      if (i === 4) html += `<div class="sum-day-tag">Day 2</div>`;
       html += `<div class="sum-cell">
         <span class="sum-range">${b.range}</span>
         <div class="sum-icon">${iconSVG(b.icon)}</div>
